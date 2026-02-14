@@ -34,14 +34,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Initialize Vanilla Tilt (3D Parallax)
     if (typeof VanillaTilt !== 'undefined') {
         VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
-            max: 25,
-            speed: 400,
+            max: 20,         // Slightly reduced max for more professional feel
+            speed: 1000,     // Much smoother transition
             glare: true,
-            "max-glare": 0.4,
+            "max-glare": 0.5, // Stronger glare for glass effect
             "glare-prerender": true,
             "mouse-event-element": document.body,
-            gyroscope: false,
-            transition: true,
+            gyroscope: true,  // Enabled for mobile tilt
+            perspective: 1000,
+            scale: 1.05      // Slight zoom on hover
         });
 
         // Mobile: Disable tilt on touch devices
