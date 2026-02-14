@@ -1,6 +1,14 @@
 :root {
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #0f0f23;
     --glass-bg: rgba(255, 255, 255, 0.08);
     --glass-border: rgba(255, 255, 255, 0.2);
+    --primary-blue: #3b82f6;
+    --success-green: #10b981;
+    --gold-accent: #fbbf24;
+    --text-primary: #f8fafc;
+    --text-secondary: rgba(248, 250, 252, 0.7);
+    --glow-white: rgba(255, 255, 255, 0.45);
     --shadow-heavy: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 }
 
@@ -8,38 +16,108 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    line-height: 1.6;
 }
 
+/* Glass Effect */
 .glass-effect {
     background: var(--glass-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);
     box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        0 25px 50px -12px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.tilt-card {
-    transform-style: preserve-3d;
-    perspective: 1000px;
+.glass-effect::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+    );
 }
 
+.glass-effect:hover {
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow:
+        0 35px 60px -15px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    transform: translateY(-4px);
+}
+
+/* Hero Typography */
+.hero-h1 {
+    font-size: clamp(3.5rem, 8vw, 6rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    background: linear-gradient(135deg, #ffffff, #dbeafe, #94a3b8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+}
+
+/* CTA Button */
+.cta-button {
+    display: inline-flex;
+    items-center: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    background: linear-gradient(to right, #3b82f6, #4f46e5, #6366f1);
+    color: white;
+    font-weight: 600;
+    border-radius: 1rem;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.5);
+    transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.6);
+}
+
+/* Testimonials Marquee */
 .testimonials {
     overflow: hidden;
     position: relative;
-    background: linear-gradient(90deg, #0a0a0f, transparent 20%, transparent 80%, #0a0a0f);
+    background: linear-gradient(90deg, var(--bg-primary), transparent 20%, transparent 80%, var(--bg-primary));
+}
+
+.marquee-track {
+    display: flex;
+    overflow: hidden;
+    user-select: none;
 }
 
 .marquee {
     display: flex;
+    flex-shrink: 0;
     white-space: nowrap;
-    animation: marquee 30s linear infinite;
-    width: fit-content;
+    animation: marquee 32s linear infinite;
+    gap: 2rem;
+    padding: 1rem 0;
 }
 
 .marquee:hover {
@@ -51,12 +129,52 @@ body {
     100% { transform: translateX(-50%); }
 }
 
+/* Secure Access Button */
+.secure-access {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    z-index: 100;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0px rgba(59, 130, 246, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 12px rgba(59, 130, 246, 0);
+    }
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    [data-tilt] {
+        transform: none !important;
+    }
+    .glass-effect {
+        backdrop-filter: blur(10px);
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    [data-tilt] {
+        transform: none !important;
+    }
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
     width: 8px;
 }
 ::-webkit-scrollbar-track {
-    background: #0a0a0f;
+    background: var(--bg-primary);
 }
 ::-webkit-scrollbar-thumb {
     background: #1e293b;
